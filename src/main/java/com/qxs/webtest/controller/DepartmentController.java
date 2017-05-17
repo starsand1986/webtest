@@ -21,7 +21,7 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService deptService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(ControllerDemo.class);
+	private static final Logger logger = LoggerFactory.getLogger(DepartmentController.class);
 
 	@RequestMapping(value="/departments", method=RequestMethod.POST)
 	public void createDepartment(@RequestBody Department dept){
