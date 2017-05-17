@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qxs.webtest.dao.IDepartmentDao">
+
+    <insert id="insertDepartment" parameterType="com.qxs.webtest.model.Department">
+        insert into department (NAME, LOCATION, OPENPOSITIONS)
+        values (#{name,jdbcType=VARCHAR},#{location,jdbcType=VARCHAR},#{openPositions,jdbcType=VARCHAR})
+    </insert>
+    
+    <select id="getAllDepartments" resultType="com.qxs.webtest.model.Department">
+    	select ID as id, NAME as name, LOCATION as location, OPENPOSITIONS as openPositions
+    	from department
+    </select>
+    
+    <select id="getDepartmentById" parameterType="java.lang.Long" resultType="com.qxs.webtest.model.Department">
+    	select ID as id, NAME as name, LOCATION as location, OPENPOSITIONS as openPositions
+    	from department
+    	where ID = #{id}
+    </select>
+    
+    <select id="getSubDepartments" parameterType="java.lang.Long" resultType="com.qxs.webtest.model.Department">
+    	select ID as id, NAME as name, LOCATION as location, OPENPOSITIONS as openPositions
+    	from department
+    	where PARENTDEPT = #{id}
+    </select>
+    
+    <select id="getParentDepartment" parameterType="java.lang.Long" resultType="com.qxs.webtest.model.Department">
+    	select dept1.ID as id, dept1.NAME as name, dept1.LOCATION as location, dept1.OPENPOSITIONS as openPositions
+		from department dept1 inner join department dept2
+		on dept1.ID = dept2.PARENTDEPT
+		where dept2.ID = #{id}
+    </select>
+    
+    <update id="updateDepartment" parameterType="com.qxs.webtest.model.Department">
+    	update department
+		set NAME = #{name}, LOCATION = #{location}, OPENPOSITIONS = #{openPositions}, MANAGER = #{manager}
+		where ID = #{id}
+    </update>
+    
+    <delete id="removeDepartment" parameterType="java.lang.Long">
+    	delete from department
+    	where ID = #{id}
+    </delete>
+    
+    <update id="updateParentDepartment" parameterType="java.lang.Long">
+    	update department
+		set PARENTDEPT = 0
+		where PARENTDEPT = #{id}
+    </update>
+
+</mapper>
